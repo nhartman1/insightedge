@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zeppelin-statefulset
+  labels:
+    app: {{ template "insightedge-zeppelin.name" . }}
+    chart: {{ template "insightedge-zeppelin.chart" . }}
+    release: zeppelin-release
+    heritage: {{ .Release.Service }}
+spec:
+  serviceName: {{ template "insightedge-zeppelin.fullname" . }}
+  replicas: 1
+  selector:
+    matchLabels:
+      selectorId: zeppelin-statefulset
+  template:
+    metadata:
+      labels:
+        app: {{ template "insightedge-zeppelin.name" . }}
+        release: zep-pod
+        component: zeppelin
+        selectorId: zeppelin-statefulset
+    spec:
+      containers:
+        - name: gigaspaces-container
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["insightedge/zeppelin/bin/zeppelin.sh"]
+          # args: ["start"]
+          env:
+            - name: ZEPPELIN_PORT
+              value: {{ .Values.service.port.internal | quote }}
+
