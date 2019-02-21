@@ -6,7 +6,7 @@ metadata:
   labels:
     app: {{ template "insightedge-manager.name" . }}
     chart: {{ template "insightedge-manager.chart" . }}
-    release: manager-headless
+    release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   ports:

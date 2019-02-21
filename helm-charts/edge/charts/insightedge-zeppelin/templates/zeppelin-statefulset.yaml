@@ -1,25 +1,24 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: zeppelin-statefulset
+  name: {{ template "insightedge-zeppelin.fullname" . }}
   labels:
     app: {{ template "insightedge-zeppelin.name" . }}
     chart: {{ template "insightedge-zeppelin.chart" . }}
-    release: zeppelin-release
+    release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  serviceName: {{ template "insightedge-zeppelin.fullname" . }}
   replicas: 1
   selector:
     matchLabels:
-      selectorId: zeppelin-statefulset
+      selectorId: {{ template "insightedge-zeppelin.fullname" . }}
   template:
     metadata:
       labels:
         app: {{ template "insightedge-zeppelin.name" . }}
-        release: zep-pod
+        release: {{ .Release.Name }}
         component: zeppelin
-        selectorId: zeppelin-statefulset
+        selectorId: {{ template "insightedge-zeppelin.fullname" . }}
     spec:
       containers:
         - name: gigaspaces-container

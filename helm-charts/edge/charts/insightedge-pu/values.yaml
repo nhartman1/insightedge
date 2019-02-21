@@ -4,13 +4,15 @@
 
 nameOverride: insightedge-pu
 image:
- tag: "insightedge-rhel7-v2"
+  repository: 28541027/yuvaldori
+  tag: "insightedge-rhel7-v2"
   # repository: gigaspaces/insightedge-enterprise
   # tag: "14.0.1"
   pullPolicy: IfNotPresent #Always
 terminationGracePeriodSeconds: 30
 
-  # license: Define the GigaSpaces InsightEdge licence key.
+# license: Define the GigaSpaces InsightEdge licence key.
+license: Product=InsightEdge;Version=14.0;Type=ENTERPRISE;Customer=GigaSpaces_Technologies_-_Internal_DEV;Expiration=2023-Nov-20;Hash=NhWROVQQdNNSmO16xdaN
 # resource: Define the URL of Processing Unit JAR file.
 resourceUrl:
 # properties: Used to override the pu.xml properties that are defined as placeholders, receives string such as: memoryThreshold=7g (see documentation)

@@ -23,11 +23,11 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: pu-statefulset
+  name: {{ template "insightedge-pu.fullname" $ }}{{$podSuffix}}
   labels:
     app: {{ template "insightedge-pu.name" $ }}
     chart: {{ template "insightedge-pu.chart" $ }}
-    release: pu-release
+    release: {{ $root.Release.Name }}
     heritage: {{ $root.Release.Service }}
 #statefulset spec
 spec:
@@ -35,14 +35,14 @@ spec:
   replicas: {{$replicaCount}}
   selector:
     matchLabels:
-      selectorId: pu-statefulset
+      selectorId: {{ template "insightedge-pu.fullname" $ }}{{$podSuffix}}
   template:
     metadata:
       labels:
         app: {{ template "insightedge-pu.name" $ }}
-        release: pu-pod
+        release: {{ $root.Release.Name }}
         component: space
-        selectorId: pu-statefulset
+        selectorId: {{ template "insightedge-pu.fullname" $ }}{{$podSuffix}}
         partitionId: {{$partitionId | quote }}
     #pods spec
     spec:

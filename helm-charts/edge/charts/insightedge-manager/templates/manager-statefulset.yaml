@@ -3,25 +3,25 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: manager-statefulset
+  name: {{ template "insightedge-manager.fullname" . }}
   labels:
     app: {{ template "insightedge-manager.name" . }}
     chart: {{ template "insightedge-manager.chart" . }}
-    release: manager-release
+    release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{$managerReplicas}}
   serviceName: {{ template "insightedge-manager.fullname" . }}-hs
   selector:
     matchLabels:
-      selectorId: manager-statefulset
+      selectorId: {{ template "insightedge-manager.fullname" . }}
   template:
     metadata:
       labels:
         app: {{ template "insightedge-manager.name" . }}
-        release: man-pod
+        release: {{ .Release.name }}
         component: manager
-        selectorId: manager-statefulset
+        selectorId: {{ template "insightedge-manager.fullname" . }}
     spec:
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       containers:
@@ -39,13 +39,6 @@ spec:
             - "managerReplicas={{$managerReplicas}}"
             - "release.namespace={{ .Release.Namespace }}"
             - "full.name={{ template "insightedge-manager.fullname" . }}"
-          livenessProbe:
-            httpGet:
-              path: /v2/info
-              port: {{ .Values.service.ports.api.port}}
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            failureThreshold: 3
           resources:
 {{ toYaml .Values.resources | indent 12 }}
 {{- if .Values.antiAffinity.enabled }}
