@@ -4,8 +4,6 @@
 
 nameOverride: insightedge-pu
 image:
-  repository: 28541027/yuvaldori
-  tag: "insightedge-rhel7-v2"
   # repository: gigaspaces/insightedge-enterprise
   # tag: "14.0.1"
   pullPolicy: IfNotPresent #Always
